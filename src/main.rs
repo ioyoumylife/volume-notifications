@@ -29,7 +29,7 @@ fn notify_dunst(sink: &str) {
     let mut icon_path: String =
         "~/.icons/la-capitaine-icon-theme/status/scalable-dark/".to_string();
     if mute_str == "yes" {
-        icon_path += "audio-volume-mute.svg";
+        icon_path += "audio-volume-muted.svg";
     } else if vol_int <= 33 {
         icon_path += "audio-volume-low.svg";
     } else if vol_int <= 66 {
@@ -37,12 +37,7 @@ fn notify_dunst(sink: &str) {
     } else if vol_int > 67 {
         icon_path += "audio-volume-high.svg";
     }
-    let mut notification_str: String = "\"".to_string();
-    notification_str += sink;
-    notification_str += "\n";
-    notification_str += vol_str_val;
-    notification_str += "%";
-    notification_str += "\"";
+    let dunst_str = format!("\"{}\n{}%\"", sink, vol_str_val);
     cmd(
         "dunstify",
         vec![
@@ -54,7 +49,7 @@ fn notify_dunst(sink: &str) {
             "low",
             "-i",
             &icon_path,
-            &notification_str,
+            &dunst_str,
         ],
     );
 }
